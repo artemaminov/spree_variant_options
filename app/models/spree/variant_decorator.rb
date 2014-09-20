@@ -16,6 +16,6 @@ Spree::Variant.class_eval do
   end
 
   def original_price
-    self.default_price.original_amount
+    self.default_price.amount
   end
 end
