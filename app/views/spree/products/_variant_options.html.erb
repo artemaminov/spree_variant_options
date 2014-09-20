@@ -1,6 +1,6 @@
 <% if @product.has_variants? %>
   <div id="product-variants">
-    <h2><%= t('variants') %></h2>
+    <h2><%= Spree.t(:variants) %></h2>
     <% index = 0 %>
     <% @product.grouped_option_values.each do |type, values| %>
       <div id="<%= dom_id(type) %>" class="variant-options index-<%= index %>">
@@ -30,9 +30,10 @@
     //<![CDATA[
       var variant_options = new VariantOptions({
         options: <%== @product.variant_options_hash.to_json -%>,
-        track_inventory_levels: <%==  !!Spree::Config[:track_inventory_levels] -%>,
+        track_inventory_levels: <%== !!Spree::Config[:track_inventory_levels] -%>,
         allow_select_outofstock: <%== !!SpreeVariantOptions::VariantConfig[:allow_select_outofstock] -%>,
         default_instock: <%== !!SpreeVariantOptions::VariantConfig[:default_instock] -%>,
+        show_selected_option: <%== !!SpreeVariantOptions::VariantConfig[:show_selected_option] -%>,
         i18n: <%== {:out_of_stock => t(:out_of_stock) }.to_json -%>
       });
     //]]>

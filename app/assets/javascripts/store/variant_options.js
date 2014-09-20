@@ -37,6 +37,7 @@ function VariantOptions(params) {
   var allow_backorders = !params['track_inventory_levels'];
   var allow_select_outofstock = params['allow_select_outofstock'];
   var default_instock = params['default_instock'];
+  var show_selected_option = params['show_selected_option'];
 
   var variant, divs, parent, index = 0;
   var selection = [];
@@ -263,7 +264,9 @@ function VariantOptions(params) {
     var a = enable(a.addClass('selected'));
     parent.find('a.clear-button').css('display', 'inline-block');
     advance();
-    handle_selected();
+    if (show_selected_option) {
+        handle_selected();
+    }
     if (find_variant()) {
       toggle();
     }
@@ -303,6 +306,7 @@ function VariantOptions(params) {
         selection.addClass('out-of-stock').attr('title', i18n.out_of_stock);
     });
   };
+
   $(document).ready(init);
 
 };
