@@ -23,6 +23,8 @@ Spree::Product.class_eval do
         hash[otid] ||= {}
         hash[otid][ovid] ||= {}
         hash[otid][ovid][variant.id.to_s] = variant.to_hash
+        hash[otid][ovid][variant.id.to_s][:price] = variant.price_in(currency).display_price.to_html
+        hash[otid][ovid][variant.id.to_s][:original_price] = self.price_in(currency).display_price.to_html
       end
     end
     @_variant_options_hash = hash
