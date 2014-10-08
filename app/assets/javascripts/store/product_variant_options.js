@@ -19,19 +19,14 @@ show_variant_images = function(variantId) {
     }
 
     var newThumbLink = newThumb.find("a"),
-        newImage = newThumbLink.attr("href"),
-        dataCloudZoom = newThumbLink.data("cloudzoom");
+        newImage = newThumbLink.attr("href");
 
-    if (currentThumb && dataCloudZoom) {
+    if (currentThumb) {
         $('ul.thumbnails li').removeClass("selected");
         newThumb.addClass("selected");
         currentImageWrapper.data('selectedThumb', newImage);
         currentImageWrapper.data('selectedThumbId', newThumb.attr('id'));
         currentMainImage.attr('src', newImage);
-        currentMainImage.attr('data-cloudzoom', dataCloudZoom);
-        currentMainImage.data("CloudZoom").loadImage(newImage, newThumbLink.data("zoomimage"));
-//        currentMainImage.data("CloudZoom").destroy();
-//        CloudZoom.quickStart();
     }
 };
 
