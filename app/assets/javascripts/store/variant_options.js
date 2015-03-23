@@ -17,7 +17,7 @@ if (!Array.indexOf) Array.prototype.indexOf = function (obj) {
     return -1;
 };
 
-if (!Array.find_matches) Array.find_matches = function (a) {
+if (!Array.findMatches) Array.findMatches = function (a) {
     var i, m = [];
     a = a.sort();
     i = a.length;
@@ -36,10 +36,10 @@ function VariantOptions(params) {
 
     var options = params['options'];
     var i18n = params['i18n'];
-    var allow_backorders = !params['track_inventory_levels'];
-    var allow_select_outofstock = params['allow_select_outofstock'];
-    var default_instock = params['default_instock'];
-    var show_selected_option = params['show_selected_option'];
+    var allowBackorders = !params['track_inventory_levels'];
+    var allowSelectOutofstock = params['allow_select_outofstock'];
+    var defaultInstock = params['default_instock'];
+    var showSelectedOption = params['show_selected_option'];
 
     var variant, divs, parent, index = 0;
     var selection = [];
@@ -54,31 +54,14 @@ function VariantOptions(params) {
         toggle();
         $('div.variant-options a.clear-button').hide().click(handle_clear);
 
-        if (default_instock) {
+        if (defaultInstock) {
             divs.each(function () {
                 $(this).find("ul.variant-option-values li a.in-stock:first").click();
             });
         }
-        $('.variant-options').each(function () {
-            var is_selected = false;
-            $(this).find('.variant-option-values .option-value').each(function () {
-                if ($(this).hasClass('selected')) {
-                    is_selected = true
-                }
-            });
-            if (!is_selected) {
-                var is_found = false;
-                $(this).find('.variant-option-values .option-value').each(function () {
-                    if (!is_found && $(this).hasClass('in-stock')) {
-                        is_found = true;
-                        $(this).click()
-                    }
-                })
-            }
-        })
     }
 
-    function get_index(parent) {
+    function getIndex(parent) {
         return parseInt($(parent).attr('class').replace(/[^\d]/g, ''));
     }
 
@@ -93,12 +76,10 @@ function VariantOptions(params) {
         return btns.removeClass('selected');
     }
 
-    var i = 0;
-
     function enable(btns) {
         bt = btns.not('.unavailable').removeClass('locked').unbind('click');
-        if (!allow_select_outofstock && !allow_backorders) {
-            bt = bt.filter('.in-stock')
+        if (!allowSelectOutofstock && !allowBackorders) {
+            bt = bt.filter('.in-stock');
         }
         return bt.click(handle_click).filter('.auto-click').removeClass('auto-click').click();
     }
@@ -119,23 +100,34 @@ function VariantOptions(params) {
             key = value.split('-');
             var v = options[key[0]][key[1]];
             keys = $.keys(v);
-            var m = Array.find_matches(selection.concat(keys));
+            var m = Array.findMatches(selection.concat(keys));
             if (selection.length == 0) {
                 selection = keys;
             } else if (m) {
                 selection = m;
             }
         });
-        btns.removeClass('in-stock out-of-stock unavailable').each(function (i, element) {
-            var variants = get_variant_objects(element.rel);
-            var keys = $.keys(variants);
+        btns.removeClass('in-stock out-of-stock unavailable backorderable').each(function (i, element) {
+            var selectionClass = 'out-of-stock';
+            variants = getVariantObjects(element.rel);
+            keys = $.keys(variants);
             if (keys.length == 0) {
                 disable($(element).addClass('unavailable locked').unbind('click'));
             } else if (keys.length == 1) {
                 _var = variants[keys[0]];
-                $(element).addClass(_var.in_stock ? selection.length == 1 ? 'in-stock auto-click' : 'in-stock' : 'out-of-stock');
-            } else if (allow_backorders) {
-                $(element).addClass('in-stock');
+                if (_var.in_stock || _var.backorderable || _var.not_trackable) {
+                    if (selection.length == 1) {
+                        selectionClass = 'in-stock auto-click';
+                    } else {
+                        selectionClass = 'in-stock'
+                    }
+                    if (_var.backorderable) {
+                        selectionClass += ' backorderable'
+                    }
+                }
+                $(element).addClass(selectionClass);
+            } else if (allowBackorders) {
+                $(element).addClass(selectionClass);
             } else {
                 var count = 0;
                 $.each(variants, function (key, value) {
@@ -146,7 +138,7 @@ function VariantOptions(params) {
         });
     }
 
-    function get_variant_objects(rels) {
+    function getVariantObjects(rels) {
         var i, ids, obj, variants = {};
         if (typeof(rels) == 'string') {
             rels = [rels];
@@ -187,7 +179,7 @@ function VariantOptions(params) {
     // Set price or price range if matching variants have different prices.
     function find_variant() {
         var selected = divs.find('a.selected');
-        var variants = get_variant_objects(selected.get(0).rel);
+        var variants = getVariantObjects(selected.get(0).rel);
         if (selected.length == divs.length) {
             return variant = variants[selection[0]];
         } else {
@@ -231,7 +223,7 @@ function VariantOptions(params) {
             variants = $("div.variant-options.index-0");
             if (variants.find("a.option-value.out-of-stock").length != variants.find("a.option-value").length)
             // TODO: i18n (select)
-                price.text('(select)');
+                price.text('Выберите размер');
         }
     }
 
@@ -252,7 +244,7 @@ function VariantOptions(params) {
 
     function handle_clear(evt) {
         evt.preventDefault();
-        clear(get_index(this));
+        clear(getIndex(this));
     }
 
     function handle_click(evt) {
@@ -267,7 +259,7 @@ function VariantOptions(params) {
         var a = enable(a.addClass('selected'));
         parent.find('a.clear-button').css('display', 'inline-block');
         advance();
-        if (show_selected_option) {
+        if (showSelectedOption) {
             handle_selected();
         }
         if (find_variant()) {
