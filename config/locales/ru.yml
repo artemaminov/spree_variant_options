@@ -1,2 +1,4 @@
 ru:
   select_a: "Выберите %{name}:"
+  material_image: Изображение
+  display_at_variant: Отображать в вариантах продукта
