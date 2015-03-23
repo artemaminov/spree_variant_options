@@ -1,0 +1,14 @@
+<% if option_type.display_at_variant? %>
+  <div data-hook="file" class="field">
+    <%= f.label t(:material_image) %>
+    <%= f.file_field :image, :name => "variant[][image][]", :class => "fullwidth" %>
+    <% unless @variant.new_record? %>
+      <% current_option_value = @variant.current_option_value(option_type.name) %>
+      <%= current_option_value.presentation %>
+      <%= image_tag(current_option_value.image.url(:small),
+                    :name => "variant[option_types_ids][#{option_type.id}][option_values_attributes][]",
+                    :id => "optionImage-#{option_type.id}") if current_option_value.has_image?
+      %>
+    <% end %>
+  </div>
+<% end %>

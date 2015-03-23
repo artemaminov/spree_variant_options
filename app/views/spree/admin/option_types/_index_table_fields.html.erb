@@ -1,0 +1,7 @@
+<td class="align-center">
+  <%= form_tag display_at_variant_admin_option_type_path(option_type.id), method: :put, class: 'toggle_display_at_variant' do %>
+    <%= check_box_tag 'option_type[display_at_variant]', 1, option_type.display_at_variant?,
+                      class: 'option_type_display_at_variant',
+                      id: "option_type_display_at_variant_#{option_type.id}" %>
+  <% end %>
+</td>

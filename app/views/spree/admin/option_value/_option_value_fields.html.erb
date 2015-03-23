@@ -1,0 +1,4 @@
+<td style="width: 60px">
+  <%= image_tag f.object.image.url(:small) if f.object.has_image? %>
+</td>
+<td><%= f.file_field :image %></td>
