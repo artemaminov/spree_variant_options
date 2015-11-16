@@ -1,0 +1,111 @@
+#product-details .price.unselected {
+  color: #bbb;
+}
+
+#product-variants {
+  padding-bottom: 10px;
+  border-bottom: 1px dashed grey;
+  ul.variant-option-values {
+    list-style-type: none;
+    margin-bottom: 1em;
+  }
+}
+
+#product-thumbnails {
+  li.variant-option-cut {
+    margin-right: 0;
+  }
+}
+
+.variant-option-values {
+  li {
+    display: block;
+    position: relative;
+    float: left;
+    &.clear {
+      border: 0;
+      float: none;
+      clear: both;
+    }
+    a {
+      display: block;
+      background-color: #f9f9f9;
+      border: 2px solid #eee;
+      padding: 2px 9px;
+      margin: 3px 3px 0 0;
+      text-decoration: none;
+      cursor: pointer;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+    }
+  }
+}
+
+div.variant-options a.clear-button {
+  display: none;
+  font-weight: bold;
+  background-color: #fff;
+  border-color: #FDE2E2;
+  color: #c00e0e;
+  vertical-align: middle;
+  margin-left: 5px;
+  line-height: normal;
+  font-size: 12px;
+}
+
+.option-value {
+  &.selected, &.in-stock:hover {
+    background-color: #1491EB;
+    border-color: #1072B9;
+    color: #fff;
+  }
+  &.out-of-stock {
+    border: 1px solid red;
+    display: block;
+    background: transparent image-url('store/out-of-stock.png') repeat 0 0;
+    color: #aaa;
+    cursor: default;
+  }
+  &.backorderable {
+    border: 1px solid yellow;
+    display: block;
+    background: transparent image-url('store/backorderable.png') repeat 0 0;
+    color: #aaa;
+    cursor: default;
+  }
+  &.locked, &.locked:hover {
+    background-color: #fff;
+    border-color: #f0f0f0;
+    color: #ddd;
+    cursor: default;
+  }
+  &.locked img {
+    filter:alpha(opacity=50);
+    -moz-opacity:0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.5;
+  }
+}
+
+h6 {
+  &.variant-option-type {
+    strong.selection.out-of-stock {
+      background: none;
+      text-decoration: line-through;
+      cursor: default;
+    }
+    strong.selection {
+      vertical-align: middle;
+      color: #1491EB;
+      padding-left: 5px;
+    }
+  }
+}
+
+.variant-option-type {
+  margin-bottom: 0;
+  label {
+    display: inline-block;
+  }
+}
