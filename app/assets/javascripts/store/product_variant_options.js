@@ -1,13 +1,23 @@
+var hide_all_variant_images = function () {
+    $('li.vtmb').hide();
+};
+
 show_variant_images = function(variantId) {
     hide_all_variant_images();
 
-    var currentVariant = $("li.tmb-" + variantId),
+    var thumbnailContainer = $("#product-images ul.thumbnails"),
+        currentVariant = $("li.tmb-" + variantId),
         currentImageWrapper = $("#main-image"),
         currentMainImage = currentImageWrapper.find("img"),
         currentThumb = currentImageWrapper.data("selectedThumb"),
         currentThumbId = currentImageWrapper.data("selectedThumbId");
 
     currentVariant.show();
+
+    // TODO: images per row cut as variable
+    thumbnailContainer.find('li:visible').each(function (i) {
+        $(this).toggleClass('variant-option-cut', ((i + 1) % 6 == 0));
+    });
 
     // if currently selected thumb does not belong to current variant, nor to common images,
     // hide it and select the first available thumb instead.
@@ -28,8 +38,4 @@ show_variant_images = function(variantId) {
         currentImageWrapper.data('selectedThumbId', newThumb.attr('id'));
         currentMainImage.attr('src', newImage);
     }
-};
-
-var hide_all_variant_images = function () {
-    $('li.vtmb').hide();
 };
