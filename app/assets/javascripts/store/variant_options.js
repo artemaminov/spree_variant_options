@@ -45,7 +45,6 @@ function VariantOptions(params) {
     var selection = [];
     var buttons;
 
-
     function init() {
         divs = $('#product-variants .variant-options');
         disable(divs.find('a.option-value').addClass('locked'));
@@ -56,7 +55,7 @@ function VariantOptions(params) {
 
         if (defaultInstock) {
             divs.each(function () {
-                $(this).find("ul.variant-option-values li a.in-stock:first").click();
+                $(this).find('ul.variant-option-values li a.in-stock:first').click();
             });
         }
     }
@@ -166,7 +165,7 @@ function VariantOptions(params) {
                 }
             }
         } catch (error) {
-            //console.log(error);
+            console.log(error);
         }
         return variants;
     }
@@ -213,15 +212,15 @@ function VariantOptions(params) {
             try {
                 show_variant_images(variant.id);
             } catch (error) {
-                // depends on modified version of product.js
+                //depends on modified version of product.js
             }
         } else {
             $('#variant_id, form[data-form-type="variant"] input[name$="[variant_id]"]').val('');
             $('#cart-form button[type=submit], form[data-form-type="variant"] button[type=submit]').attr('disabled', true).fadeTo(0, 0.5);
             price = $('#product-description .price').addClass('unselected');
             // Replace product price by "(select)" only when there are at least 1 variant not out-of-stock
-            variants = $("div.variant-options.index-0");
-            if (variants.find("a.option-value.out-of-stock").length != variants.find("a.option-value").length)
+            variants = $('div.variant-options.index-0');
+            if (variants.find('a.option-value.out-of-stock').length != variants.find('a.option-value').length)
             // TODO: i18n (select)
                 price.text('Выберите размер');
         }
@@ -269,7 +268,7 @@ function VariantOptions(params) {
             var is_selected = false;
             $(this).find('.variant-option-values .option-value').each(function () {
                 if ($(this).hasClass('selected')) {
-                    is_selected = true
+                    is_selected = true;
                 }
             });
             if (!is_selected) {
@@ -277,7 +276,7 @@ function VariantOptions(params) {
                 $(this).find('.variant-option-values .option-value').each(function () {
                     if (!is_found && $(this).hasClass('in-stock')) {
                         is_found = true;
-                        $(this).click()
+                        $(this).click();
                     }
                 })
             }
