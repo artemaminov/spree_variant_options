@@ -211,6 +211,7 @@ function VariantOptions(params) {
             $('form[data-form-type="variant"] button[type=submit]').attr('disabled', false).fadeTo(100, 1);
             try {
                 show_variant_images(variant.id);
+                $('#product-images ul.thumbnails').trigger('thumbschanged');
             } catch (error) {
                 //depends on modified version of product.js
             }
